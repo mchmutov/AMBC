@@ -1,4 +1,4 @@
-# n implementation of Affine Matrix Ball Construction
+# An implementation of Affine Matrix Ball Construction
 
 * Use arrows to get around the infinite matrix
 * Use SHIFT + arrows to move around the red grid
