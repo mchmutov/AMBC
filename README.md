@@ -1,5 +1,9 @@
 # An implementation of Affine Matrix Ball Construction
 
+Affine Matrix Ball Construction is a combinatorial algorithm which gives a bijection between the collection of (extended) affine permutations and triples (P, Q, rho) where the first two elements are "tabloids" and the last is a "dominant weight". The preprint introducing the algorithm lives [here](https://arxiv.org/abs/1511.05861).
+
+## Operation
+
 * Use arrows to get around the infinite matrix
 * Use SHIFT + arrows to move around the red grid
 * Desired permutation can be entered in lower part of window (make sure to press ENTER at the end)
