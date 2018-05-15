@@ -4,6 +4,7 @@ Affine Matrix Ball Construction is a combinatorial algorithm which gives a bijec
 
 ## Operation
 
+* The file AMBC.jar should be runnable on any machine that have Java Runtime Environment
 * Use arrows to get around the infinite matrix
 * Use SHIFT + arrows to move around the red grid
 * Desired permutation can be entered in lower part of window (make sure to press ENTER at the end)
