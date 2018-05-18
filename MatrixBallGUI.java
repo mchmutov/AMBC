@@ -10,7 +10,7 @@ import java.io.*;
 //TODO: Zoom, moving red nxn grid
 public class MatrixBallGUI extends JPanel{
 	private JFrame mainFrame;
-	
+
 	private Integer n = 10;
 	private Integer maxInterval = 2;
 	//private ePerm window = new ePerm(n, maxInterval);
@@ -22,9 +22,12 @@ public class MatrixBallGUI extends JPanel{
 	private Integer boxSizeX = 26;
 	private Integer boxSizeY = 26;
 	private Integer redGridX = 1;
-	private Integer redGridY = 1;	
+	private Integer redGridY = 1;
 	MatrixBallPicture picture;
-	
+
+	// Output font
+	private final Font OUTPUT_FONT = new Font("monospaced", Font.PLAIN, 12);
+
 	// Southwest river data
 	Set<Integer> southwestRiver;
 	ArrayList<Integer> riverNumberingWindow;
@@ -34,7 +37,7 @@ public class MatrixBallGUI extends JPanel{
 	private final int FC_DEFAULT = 1; // Default first column
 	private Integer fr = FR_DEFAULT; // First row to display
 	private Integer fc = FC_DEFAULT; // First column to display
-	
+
 	// Mode related data
 	private final int SW_RIVER_MODE = 0;
 	private final int HOR_CUTOFF_MODE = 1;
@@ -43,12 +46,12 @@ public class MatrixBallGUI extends JPanel{
 	// RSK data
 	private final int NORM_RSK_MODE = 0;
 	private final int MID_RSK_MODE_F = 1;
-	private final int MID_RSK_MODE_B = 2;	
+	private final int MID_RSK_MODE_B = 2;
 	private Integer RSKMode = NORM_RSK_MODE;
-	private Tabloid P; 
-	private Tabloid Q; 
-	private ArrayList<Integer> R; 
-	
+	private Tabloid P;
+	private Tabloid Q;
+	private ArrayList<Integer> R;
+
 	// Interface components
 	JTextField nInput;
 	JTextField maxIntervalInput;
@@ -56,18 +59,18 @@ public class MatrixBallGUI extends JPanel{
 	JButton buttonBB;
 	JButton buttonB;
 	JButton buttonF;
-	JButton buttonFF;	
+	JButton buttonFF;
 	JRadioButton modeSWRiver;
 	JRadioButton modeHorCutoff;
 	JTextArea RSKOutputP = new JTextArea(1,1);
 	JTextArea RSKOutputQ = new JTextArea(1,1);
 	JTextArea RSKOutputR = new JTextArea(1,1);
-	
+
 	// File chooser
 	// private JFileChooser fileChooser = new JFileChooser();
 	//private FileDialog loadDialog;
 	//private FileDialog saveDialog;
-	
+
 	//--------------------------------------------------------------------------------------------------------------------------------
 	//Constructor
 	public MatrixBallGUI() {
@@ -83,7 +86,7 @@ public class MatrixBallGUI extends JPanel{
 		P = new Tabloid(n);
 		Q = new Tabloid(n);
 		R = new ArrayList<Integer>();
-			
+
 		//----------------------------
 		// Build interface
 		//----------------------------
@@ -93,19 +96,19 @@ public class MatrixBallGUI extends JPanel{
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
 		// Panel to deal with size of permutations
 		JPanel nPanel = new JPanel();
-		nInput = new JTextField(Integer.toString(n), 2);	    
+		nInput = new JTextField(Integer.toString(n), 2);
 		nPanel.add(new JLabel("n = "));
 		nPanel.add(nInput);
 		nInput.addActionListener(new nHandler());
 		// Panel to deal with how far randomness is allowed
 		JPanel maxIntervalPanel = new JPanel();
-		maxIntervalInput = new JTextField(Integer.toString(maxInterval), 2);	    
+		maxIntervalInput = new JTextField(Integer.toString(maxInterval), 2);
 		maxIntervalPanel.add(new JLabel("Furthest randomness = n*"));
 		maxIntervalPanel.add(maxIntervalInput);
 		maxIntervalInput.addActionListener(new maxIntervalHandler());
 		// Panel allowing to choose a permutation
 		JPanel permutationPanel = new JPanel();
-		permutationInput = new JTextField(window.toString(), 20);	    
+		permutationInput = new JTextField(window.toString(), 20);
 		permutationPanel.add(permutationInput);
 		permutationInput.addActionListener(new permHandler());
 		// Panel for exit button
@@ -118,7 +121,7 @@ public class MatrixBallGUI extends JPanel{
 		controlPanel.add(maxIntervalPanel);
 		controlPanel.add(permutationPanel);
 		controlPanel.add(exitPanel);
-		
+
 		// Build control panel 2
 		// Radio button for numbering mode switching
 		modeChoiceHandler mcHandler = new modeChoiceHandler();
@@ -166,6 +169,9 @@ public class MatrixBallGUI extends JPanel{
 		RSKOutputPanel.add(RSKOutputQ);
 		RSKOutputPanel.add(Box.createHorizontalStrut(15));
 		RSKOutputPanel.add(RSKOutputR);
+		RSKOutputP.setFont(OUTPUT_FONT);
+		RSKOutputQ.setFont(OUTPUT_FONT);
+		RSKOutputR.setFont(OUTPUT_FONT);
 		RSKOutputP.addKeyListener(RSKWindowListener);
 		RSKOutputQ.addKeyListener(RSKWindowListener);
 		RSKOutputR.addKeyListener(RSKWindowListener);
@@ -173,7 +179,7 @@ public class MatrixBallGUI extends JPanel{
 		JPanel docPanel = new JPanel();
 		JLabel docString = new JLabel("<html>F -- Fast forward AMBC<br>B -- Fast backward AMBC<br>R -- Random permutation</html>");
 		docPanel.add(docString);
-		
+
 		// Assembling control panel 2
 		JPanel controlPanel2 = new JPanel();
 		controlPanel2.setBorder(BorderFactory.createEtchedBorder());
@@ -259,7 +265,7 @@ public class MatrixBallGUI extends JPanel{
 				permutationInput.setText(window.toString());
 			}
 		};
-		
+
 		picture.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "moveRight");
 		picture.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft");
 		picture.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp");
@@ -282,15 +288,15 @@ public class MatrixBallGUI extends JPanel{
 		picture.getActionMap().put("RSKFastForward", RSKFastForward);
 		picture.getActionMap().put("RSKFastBackward", RSKFastBackward);
 		picture.getActionMap().put("randomPerm", randomPerm);
-		
+
 		// General assembly
 		setLayout(new BorderLayout());
 		add(picture, BorderLayout.CENTER);
 		add(controlPanel, BorderLayout.SOUTH);
 		add(controlPanel2, BorderLayout.EAST);
-		
+
 	}
-		
+
 	//------------------------------------------------------------------------------------------------------------------------------
 	// Classes for interface components
 	private class nHandler implements ActionListener {
@@ -301,7 +307,7 @@ public class MatrixBallGUI extends JPanel{
 					n = Integer.parseInt(tmp);
 					window = new ePerm(n, maxInterval);
 					resetToDefaults();
-					permutationInput.setText(window.toString());					
+					permutationInput.setText(window.toString());
 				}
 				catch (NumberFormatException ex) {
 					nInput.setText(Integer.toString(n));
@@ -339,14 +345,14 @@ public class MatrixBallGUI extends JPanel{
 				}
 			}
 		}
-	
+
 	private class modeChoiceHandler implements ActionListener {
 			public void actionPerformed(ActionEvent e){
 				if(e.getActionCommand() == "SWR"){
 					southwestRiver = window.southwestRiver();
 					riverNumberingWindow = window.southwestRiverNumbering();
 					mode = SW_RIVER_MODE;
-					
+
 				}
 				else if(e.getActionCommand() == "HC"){
 					fc = FC_DEFAULT;
@@ -464,13 +470,13 @@ public class MatrixBallGUI extends JPanel{
 			picture.repaint();
 			picture.requestFocus();
 		}
-	}	
-	
+	}
+
 	private class RSKInputWindowHandler implements KeyListener {
 		public void keyReleased(KeyEvent e){}
 		public void keyTyped(KeyEvent e){}
 		public void keyPressed(KeyEvent e){
-			
+
 			if(e.getKeyCode() == KeyEvent.VK_ENTER)
 			{
 				if(e.isShiftDown()){
@@ -479,7 +485,7 @@ public class MatrixBallGUI extends JPanel{
 					return;
 				}
 				e.consume();
-			
+
 				if(e.getSource() == RSKOutputP){
 					P = new Tabloid(RSKOutputP.getText());
 					RSKOutputP.setText(P.toString());
@@ -494,7 +500,7 @@ public class MatrixBallGUI extends JPanel{
 				}
 				n = P.size();
 				window.n = n;
-				window.clear();				
+				window.clear();
 				nInput.setText(n.toString());
 				permutationInput.setText("");
 				fc = FC_DEFAULT;
@@ -508,9 +514,9 @@ public class MatrixBallGUI extends JPanel{
 				picture.requestFocus();
 			}
 		}
-		
+
 	}
-	
+
 	// Define class for window containing graph & method for redrawing
 	private class MatrixBallPicture extends JPanel{
 		public void paintComponent(Graphics g){
@@ -519,7 +525,7 @@ public class MatrixBallGUI extends JPanel{
 			int height = getHeight();
 			setBackground(Color.white);
 			super.paintComponent(g2);
-			
+
 			// Figure out how many boxes are there
 			numX = (width-buffX)/boxSizeX;
 			numY = (height-buffY)/boxSizeY;
@@ -534,21 +540,21 @@ public class MatrixBallGUI extends JPanel{
 			}
 			g2.setStroke(new BasicStroke(3));
 			g2.setColor(Color.red);
-			//g2.drawLine(buffX,buffY-(fr)*boxSizeY, width, buffY-(fr)*boxSizeY);					
-			//g2.drawLine(buffX-(fc)*boxSizeX,buffY , buffX-(fc)*boxSizeX, height);					
+			//g2.drawLine(buffX,buffY-(fr)*boxSizeY, width, buffY-(fr)*boxSizeY);
+			//g2.drawLine(buffX-(fc)*boxSizeX,buffY , buffX-(fc)*boxSizeX, height);
 			g2.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {boxSizeX/2}, 0));
 			for(int i=fr-1; i < fr+numY; i++){
 				if(modn(i) == modn(redGridY))
-					g2.drawLine(buffX,buffY+boxSizeY*(i-fr), width, buffY+boxSizeY*(i-fr));					
+					g2.drawLine(buffX,buffY+boxSizeY*(i-fr), width, buffY+boxSizeY*(i-fr));
 			}
 			for(int i=fc-1; i < fc+numX; i++){
 				if(modn(i) == modn(redGridX))
-					g2.drawLine(buffX+boxSizeX*(i-fc), buffY, buffX+boxSizeX*(i-fc), height);					
+					g2.drawLine(buffX+boxSizeX*(i-fc), buffY, buffX+boxSizeX*(i-fc), height);
 			}
 			g2.setStroke(new BasicStroke(4));
 			g2.setColor(Color.black);
-			g2.drawLine(buffX,buffY, width, buffY);					
-			g2.drawLine(buffX,buffY, buffX, height);					
+			g2.drawLine(buffX,buffY, width, buffY);
+			g2.drawLine(buffX,buffY, buffX, height);
 			// Create list of Balls
 			// Compute ball labels
 			class Ball{
@@ -615,10 +621,10 @@ public class MatrixBallGUI extends JPanel{
 					g2.setColor(Color.blue);
 					g2.drawString(Integer.toString(window.getBackNumber(b.f)), buffX + (b.t-fc)*boxSizeX+boxSizeX/5, buffY + (b.f-fr)*boxSizeY+3*boxSizeY/4);
 				}
-				
+
 			}
 			// If midway through RSK, draw corresponding picture
-			if(RSKMode == MID_RSK_MODE_F){				
+			if(RSKMode == MID_RSK_MODE_F){
 				Integer curBall;
 				Integer nextBall;
 				for(Integer label:labelsPresent){
@@ -634,10 +640,10 @@ public class MatrixBallGUI extends JPanel{
 					while(!window.isLast(curBall)){
 						nextBall = window.getNext(curBall);
 						if(curBall >= fr)
-							g2.drawLine(buffX + Math.max((window.get(curBall)-fc)*boxSizeX + boxSizeX,0), buffY + (curBall-fr)*boxSizeY + boxSizeY/2, 
+							g2.drawLine(buffX + Math.max((window.get(curBall)-fc)*boxSizeX + boxSizeX,0), buffY + (curBall-fr)*boxSizeY + boxSizeY/2,
 									buffX + Math.max((window.get(nextBall)-fc)*boxSizeX,0), buffY + (curBall-fr)*boxSizeY + boxSizeY/2);
 						if(window.get(nextBall) >= fc)
-							g2.drawLine(buffX + (window.get(nextBall)-fc)*boxSizeX+boxSizeX/2, buffY + Math.max((curBall-fr)*boxSizeY,0), 
+							g2.drawLine(buffX + (window.get(nextBall)-fc)*boxSizeX+boxSizeX/2, buffY + Math.max((curBall-fr)*boxSizeY,0),
 									buffX + (window.get(nextBall)-fc)*boxSizeX+boxSizeX/2, buffY + Math.max((nextBall-fr)*boxSizeY+ boxSizeY,0));
 						if(curBall >= fr && window.get(nextBall) >= fc)
 						g2.drawOval(buffX + (window.get(nextBall)-fc)*boxSizeX+1, buffY + (curBall-fr)*boxSizeY+1, boxSizeX-2, boxSizeY-2);
@@ -647,7 +653,7 @@ public class MatrixBallGUI extends JPanel{
 					if(curBall >= fr){
 					g2.setColor(Color.magenta);
 					g2.drawLine(buffX + (window.get(curBall)-fc)*boxSizeX, buffY + (curBall-fr)*boxSizeY + boxSizeY/2,
-							buffX + Math.max((window.getBackX(curBall)-fc)*boxSizeX + boxSizeX/2,0), buffY + (window.getBackY(curBall)-fr)*boxSizeY + boxSizeY/2); 
+							buffX + Math.max((window.getBackX(curBall)-fc)*boxSizeX + boxSizeX/2,0), buffY + (window.getBackY(curBall)-fr)*boxSizeY + boxSizeY/2);
 					}
 				}
 			}
@@ -656,9 +662,9 @@ public class MatrixBallGUI extends JPanel{
 					if(!window.isBackRiver(i))
 						continue;
 					g2.setColor(Color.magenta);
-					g2.drawString(Integer.toString(window.getBackRiverIndex(i)), buffX + (window.getBackRiverX(i)-fc)*boxSizeX+boxSizeX/5, buffY + (i-fr)*boxSizeY+3*boxSizeY/4);					
+					g2.drawString(Integer.toString(window.getBackRiverIndex(i)), buffX + (window.getBackRiverX(i)-fc)*boxSizeX+boxSizeX/5, buffY + (i-fr)*boxSizeY+3*boxSizeY/4);
 				}
-			
+
 			}
 		}
 	}
@@ -708,7 +714,7 @@ public class MatrixBallGUI extends JPanel{
 	//------------------------------
 	// Miscellaneous private stuff
 	//------------------------------
-		
+
 	// Correcting the mod n function
 	private Integer modn(Integer k){
 			return(((k%n)+n)%n);
