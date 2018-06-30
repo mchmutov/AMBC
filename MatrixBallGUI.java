@@ -681,8 +681,8 @@ public class MatrixBallGUI extends JPanel{
 		buttonB.setEnabled(false);
 		buttonF.setEnabled(true);
 		buttonFF.setEnabled(true);
-		P.clear();
-		Q.clear();
+		P = new Tabloid(n);
+		Q = new Tabloid(n);
 		R.clear();
 		RSKOutputP.setText(null);
 		RSKOutputQ.setText(null);

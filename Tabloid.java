@@ -85,6 +85,7 @@ public class Tabloid {
 
 	/**
 	 * Why is this even here?? it looks like a silly version of a default constructor
+	 * TODO A: Because this one is public, and sometimes one wants to make an empty tabloid for future manipulation. 
 	 * @param nArg
 	 */
 	public Tabloid(Integer nArg){
