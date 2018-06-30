@@ -1,7 +1,11 @@
 import java.util.*;
 
+/* TODO: finish Javadoc
+ * TODO: adhere to convetion: programming -> 0-indexed; math -> 1-indexed
+ */
+
 public class Tabloid {
-	private Integer n; // Size of the tabloid
+	private Integer n; // Periodicity of entries in the tabloid
 	private Map<Integer,Integer> data = new HashMap<Integer,Integer>(); // maps each entry from 0 to n-1 to the row in which it lies 
 
 	// Redundant things; seems easier to store than compute each time
@@ -222,7 +226,8 @@ public class Tabloid {
 	    }	    
 	    return(ans);
 	}
-	public Integer size(){
+	/* TODO: This is misnamed as n is periodicity and since size changes */
+	public Integer size(){ 
 		return n;
 	}
 	public Integer length(){
